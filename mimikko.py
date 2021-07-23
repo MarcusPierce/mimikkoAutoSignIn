@@ -343,7 +343,16 @@ def main():
                                     f'{{"password":"{user_password_sha}", "id":"{user_id}"}}')
             logging.debug(login_data)
             if login_data and login_data.get('body'):
-                Authorization = login_data['body']['Token']
+                if login_data['code']==0:
+                    Authorization = login_data['body']['Token']
+                else:
+                    logging.warning("登录错误，请检查账号和密码是否正确")
+                    dddata, scdata, wxdata, dcdata, tgdata, ppdata, fsdata, misakadata = push.AllPush(
+                        DDTOKEN, DDSECRET, wxAgentId, wxSecret, wxCompanyId, SCKEY, dcwebhook, tgtoken, tgid, pptoken, fstoken, fssecret, misaka20001position, misakaKey, "兽耳助手签到登录错误", "兽耳助手登录错误，请检查账号和密码是否正确")
+                    push.push_check(rs1, rs2, rs3, rs4, rs5, rs6, rs7, rs8, dddata, scdata,
+                                    wxdata, dcdata, tgdata, ppdata, fsdata, misakadata)
+                    logging.critical('兽耳助手登录错误！！！')
+                    sys.exit(1)
             if Authorization:
                 logging.info("登录成功！")
             else:
