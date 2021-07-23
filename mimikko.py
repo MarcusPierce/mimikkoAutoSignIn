@@ -343,7 +343,7 @@ def main():
                                     f'{{"password":"{user_password_sha}", "id":"{user_id}"}}')
             logging.debug(login_data)
             if login_data and login_data.get('body'):
-                if login_data['code']==0:
+                if login_data['code']=='0':
                     Authorization = login_data['body']['Token']
                 else:
                     logging.warning("登录错误，请检查账号和密码是否正确")
